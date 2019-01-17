@@ -6,7 +6,6 @@ $output = '';
 if(isset($_GET['action'])){
     switch ($_GET['action']){
         case "crear":
-            //$output = todosLosDepartamentos();
             $output .= todosLosPuestos();
             break;
         
@@ -25,8 +24,6 @@ if(isset($_GET['action'])){
 }
 
 if(isset($_POST['puestos']) && isset($_POST['nombre']) && isset($_POST['email']) && isset($_POST['telefono'])){
-    /*$output = var_dump($_POST);
-    $output .= "usuario guardado con éxito";*/
     $id_puesto = htmlspecialchars(strip_tags($_POST['puestos']));
     $nombre = htmlspecialchars(strip_tags($_POST['nombre']));
     $email = htmlspecialchars(strip_tags($_POST['email']));

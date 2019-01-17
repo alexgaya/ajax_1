@@ -14,7 +14,6 @@ ver.addEventListener("click", ()=>{
 });
 
 const recieve = (action, id)=>{
-    console.log("recieve function");
     const xmlhttp = new XMLHttpRequest();
     xmlhttp.open("GET","http://127.0.0.1/javascript-daw/ajax-1/php/main.php?action="+action+"&id="+id, true);
     
@@ -50,7 +49,6 @@ const recieve = (action, id)=>{
 
 
 const send = param =>{
-    console.log(param);
     const xmlhttp = new XMLHttpRequest();
     
     xmlhttp.open("POST", "http://localhost/javascript-daw/ajax-1/php/main.php", true);
@@ -81,7 +79,6 @@ const createEventListener = param =>{
                 let param = '';
                 let child = myform.childNodes;
                 let validate = [];
-                console.log(child);
                 for(i = 0; i < child.length; i++){
                     if(child[i].nodeName === "SELECT"){
                         param += `${child[i].name}=${child[i].value}&`;
