@@ -66,9 +66,9 @@ const send = param =>{
 
 const printJson = json =>{
     let result = '<table><tr><th>Puesto</th><th>Nombre</th><th>Email</th><th>Teléfono</th></tr>';
-    for(let key in json){
+    Object.keys(json).forEach( key =>{
         result += `<tr><td>${json[key].puesto}</td><td>${json[key].nombre}</td><td>${json[key].email}</td><td>${json[key].telefono}</td></tr>`;
-    }
+    });
     mytable.innerHTML = result;
 };
 
@@ -76,24 +76,20 @@ const createEventListener = param =>{
     switch(param){
         case "form":
             myform.addEventListener('submit', ev =>{
-                let param = '';
-                let child = myform.childNodes;
-                let validate = [];
-                for(i = 0; i < child.length; i++){
-                    if(child[i].nodeName === "SELECT"){
-                        param += `${child[i].name}=${child[i].value}&`;
-                        validate[i] = child[i].value;
-                    }
-                    if(child[i].nodeName === "INPUT" && child[i].value != "Enviar"){
-                        param += `${child[i].name}=${child[i].value}&`;
-                        validate[i] = child[i].value;
-                    }
+                const childs = [...myform.childNodes];
+                const validateMapped = childs
+                        .filter(c => ((c.nodeName === "SELECT") || (c.nodeName === "INPUT" && c.value !== "Enviar")))
+                        .map(c => c.value);
+               
+                if(validateForm(validateMapped)){
+                    let insert = '';
+                    childs.forEach( c => {
+                        if((c.nodeName === "SELECT") || (c.nodeName === "INPUT" && c.value !== "Enviar")){
+                            insert += `${c.name}=${c.value}&`;
+                        }
+                    });
+                    send(insert);
                 }
-                
-                if(validateForm(validate)){
-                    send(param);
-                }
-                
                 ev.preventDefault();
             }, false);
         break;
@@ -144,19 +140,18 @@ const validateForm = validate => {
         errores.push("Número de teléfono no introducido o formato inválido");
     }
     
-    let error = false;
+    let err = false;
     
     errores.forEach( error => {
         if(error != ""){
             mytable.innerHTML += `${error} <br>`;
-            error = true;
+            err = true;
         }
     });
     
-    if(error){
+    if(err){
         return false;
     }else{
         return true;
     }
 };
-
