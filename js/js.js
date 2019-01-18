@@ -108,36 +108,65 @@ const createEventListener = param =>{
 
 const createForm = options => {
     let output;
-    output = `<form method='POST' name='newUser' enctype='multipart/form-data'>${options}<input type='text' name='nombre' placeholder='Nombre' required><input type='email' name='email' placeholder='Email' required><input type='text' name='telefono' minlength='6' placeholder='Número de teléfono' required><input type='submit' value='Enviar'></form>`;
+    output = `<form method='POST' name='newUser' enctype='multipart/form-data'>${options}<input id='nombre' type='text' name='nombre' placeholder='Nombre' required><input id='email' type='email' name='email' placeholder='Email' required><input id='telefono' type='text' name='telefono' minlength='6' placeholder='Número de teléfono' required><input type='submit' value='Enviar'></form>`;
     return output;
+};
+
+const addClassError = elem => {
+    elem.className = "error";
+};
+
+const removeClassError = elem => {
+    elem.classList.remove("error");
+};
+
+const cleanErrors = elems => {
+    elems.forEach( elem => {
+        if(elem.className === "error"){
+            removeClassError(elem);
+        }     
+    });
 };
 
 const validateForm = validate => {
     mytable.innerHTML = "";
+    
+    const puesto = document.getElementById("select");
+    const nombre = document.getElementById("nombre");
+    const email = document.getElementById("email");
+    const telefono = document.getElementById("telefono");
+    
+    const elems = [puesto, nombre, email, telefono];
+    cleanErrors(elems);
+    
     
     let errores = [];
     
     //Validar puesto
     if(validate[0] < 1){
         errores.push("Debes seleccionar un puesto");
+        addClassError(puesto);
     }
     
     //Validar nombre
     //let re = new RegExp("^[a-z]+$","i");
     if(!validate[1].match(/^[a-z]+$/i)){
-       errores.push("Nombre no introducido o no válido"); 
+       errores.push("Nombre no introducido o no válido");
+       addClassError(nombre);
     }
 
     //Validar email
     //re = new RegExp("^[\w\.-]+@[\w\.-]+\.\w{2,4}$","i");
     if(!validate[2].match(/^[\w\.-]+@[\w\.-]+\.\w{2,4}$/i)){
         errores.push("Email no introducido o formato inválido");
+        addClassError(email);
     }
 
     //Validar teléfono
     //re = new RegExp("^[+]?[(]?[0-9]{0,4}[)]?[0-9\s-]+$","");
     if(!validate[3].match(/^[+]?[(]?[0-9]{0,4}[)]?[0-9\s-]+$/)){
         errores.push("Número de teléfono no introducido o formato inválido");
+        addClassError(telefono);
     }
     
     let err = false;
@@ -154,4 +183,5 @@ const validateForm = validate => {
     }else{
         return true;
     }
+
 };

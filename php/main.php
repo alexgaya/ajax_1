@@ -73,9 +73,9 @@ function todosLosPuestos(){
     $query = "SELECT * FROM puestos;";
     $stmt = $conn->prepare($query);
     $stmt->execute();
-    $resp = "<select name='puestos' required><option value='' disabled selected>Selecciona un puesto</option>";
+    $resp = "<select id='select' name='puestos' required><option value='' disabled selected>Selecciona un puesto</option>";
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-        $resp .= "<option class='" . $row['id_departamento'] . "' value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
+        $resp .= "<option value='" . $row['id'] . "'>" . $row['nombre'] . "</option>";
     }
     $resp .= "</select>";
     return $resp;
