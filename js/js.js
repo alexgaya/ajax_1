@@ -15,7 +15,12 @@ ver.addEventListener("click", ()=>{
 
 const recieve = (action, id)=>{
     const xmlhttp = new XMLHttpRequest();
-    xmlhttp.open("GET","http://127.0.0.1/javascript-daw/ajax-1/php/main.php?action="+action+"&id="+id, true);
+    if(typeof id === undefined){
+        xmlhttp.open("GET","http://127.0.0.1/javascript-daw/ajax-1/php/main.php?action="+action, true);
+    }else{
+        xmlhttp.open("GET","http://127.0.0.1/javascript-daw/ajax-1/php/main.php?action="+action+"&id="+id, true);
+    }
+    
     
     xmlhttp.onload = ()=> {
         mytable.innerHTML = "";
@@ -69,6 +74,7 @@ const printJson = json =>{
     Object.keys(json).forEach( key =>{
         result += `<tr><td>${json[key].puesto}</td><td>${json[key].nombre}</td><td>${json[key].email}</td><td>${json[key].telefono}</td></tr>`;
     });
+    result += '</table>';
     mytable.innerHTML = result;
 };
 
